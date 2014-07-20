@@ -3,7 +3,7 @@
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/path.hpp"
 
-#include <ImageDB.h>
+#include "imagedb.h"
 
 using namespace std;
 namespace fs = boost::filesystem;
@@ -16,14 +16,12 @@ void ImageDB::addImages(const string& imagepath)
         return;
     }
     fs::directory_iterator  endIter;
-    for( fs::directory_iter itr(imagepath);
-         itr !=endIter;
-         ++itr)
+    for(fs::directory_iterator itr(imagepath); itr !=endIter; ++itr)
     {
         if(fs::is_directory(*itr))
-            addImages(itr->leaf());
+            addImages(itr->path().string());
         else
-            cout <<"Processing file '"<<itr->leaf()<<"'" <<endl;
+            cout <<"Processing file '"<<itr->path().string()<<"'" <<endl;
 
     }
 

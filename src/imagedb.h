@@ -14,10 +14,10 @@ struct Image {
 
 class ImageDB {
     public:
-        static ImageDB& getInstance()
+        static ImageDB* getInstance()
         {
             static ImageDB instance;
-            return instance;
+            return &instance;
         }
         void addImages(const std::string& imagepath);
     private:

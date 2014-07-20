@@ -12,6 +12,7 @@ Image Processing Experiment: a language comparison
 - libraries
 -- libopencv-dev
 -- libboost-thread-dev
+-- libboost-filesystem-dev
 -- libhttpserver [src](https://github.com/etr/libhttpserver.git)
 --- libmicrohttpd10 [src](ftp://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz)
 -- libssl-dev
