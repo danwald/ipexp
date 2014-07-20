@@ -9,10 +9,17 @@
 using namespace std;
 using namespace httpserver;
 
-void WebServerResource::render(const http_request& req, http_response** res)
+void WebServerResource::render_GET(const http_request& req, http_response** res)
 {
-    *res = new http_response(http_response_builder("pong", 200).string_response());
+    *res = new http_response(http_response_builder("I is hungry. Post me some stuff.",
+                                                   200).string_response());
 }
+
+void WebServerResource::render_POST(const http_request& req, http_response** res)
+{
+    *res = new http_response(http_response_builder("post", 200).string_response());
+}
+
 
 int main(int argc, char **argv)
 {
@@ -26,7 +33,7 @@ int main(int argc, char **argv)
 
     webserver server = create_webserver(PORT).max_threads(WS_THREADS);
     WebServerResource resource;
-    server.register_resource("/ping", &resource, true);
+    server.register_resource("/", &resource, true);
 
     server.start(true);
     return 0;
