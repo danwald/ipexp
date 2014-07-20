@@ -15,14 +15,12 @@ void ImageDB::addImages(const string& imagepath)
         cerr <<"Invalid imagepath '"<<imagepath<<"' specified." <<endl;
         return;
     }
-    fs::directory_iterator  endIter;
-    for(fs::directory_iterator itr(imagepath); itr !=endIter; ++itr)
-    {
-        if(fs::is_directory(*itr))
-            addImages(itr->path().string());
-        else
-            cout <<"Processing file '"<<itr->path().string()<<"'" <<endl;
 
+    fs::recursive_directory_iterator  endIter;
+    for(fs::recursive_directory_iterator itr(imagepath); itr !=endIter; ++itr)
+    {
+        if(fs::is_regular_file(itr->path()))
+            cout <<"Processing file '"<<itr->path().string()<<"'" <<endl;
     }
 
 }
