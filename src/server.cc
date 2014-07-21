@@ -17,7 +17,24 @@ void WebServerResource::render_GET(const http_request& req, http_response** res)
 
 void WebServerResource::render_POST(const http_request& req, http_response** res)
 {
-    *res = new http_response(http_response_builder("post", 200).string_response());
+    unsigned char *data = (unsigned char*)req.get_content().c_str();
+
+    switch(ImageDB::getInstance()->getImage(data, req.get_content().length()))
+    {
+        case PRESENT:
+            *res = new http_response(http_response_builder("",200).string_response());
+        break;
+        case ABSENT:
+            *res = new http_response(http_response_builder("",404).string_response());
+        break;
+        case ADDED:
+            *res = new http_response(http_response_builder("",201).string_response());
+        break;
+        default:
+            *res = new http_response(http_response_builder("",301).string_response());
+        break;
+    }
+
 }
 
 void WebServerResource::addImages(const std::string& path)
@@ -27,7 +44,6 @@ void WebServerResource::addImages(const std::string& path)
 
 int main(int argc, char **argv)
 {
-    
     webserver server = create_webserver(PORT).max_threads(WS_THREADS);
     WebServerResource resource;
     server.register_resource("/", &resource, true);
@@ -39,7 +55,7 @@ int main(int argc, char **argv)
     }
     else
     {
-        cout <<"Hello, can I has your image directory?"<<endl;
+        cout <<"Hello."<<endl;
     }
     cout <<" Done. Now send me some images"<<endl;
 
