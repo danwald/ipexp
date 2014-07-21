@@ -47,7 +47,7 @@ int main(int argc, char **argv)
     webserver server = create_webserver(PORT).max_threads(WS_THREADS);
     WebServerResource resource;
     server.register_resource("/", &resource, true);
-
+    server.start(false);
     if(argc > 1)
     {
         cout <<"Hello, I will process your images"<<endl;
@@ -57,8 +57,8 @@ int main(int argc, char **argv)
     {
         cout <<"Hello."<<endl;
     }
+    server.start(true);
     cout <<" Done. Now send me some images"<<endl;
 
-    server.start(true);
     return 0;
 }
