@@ -48,16 +48,16 @@ Result ImageDB::getImage(const unsigned char* data, unsigned int size, bool add)
     MD5(data, size, image.md5);
 
     ofstream ofs;
-    fs::path path = fs::unique_path("/tmp/%%%%%%-%%%%");
+    fs::path path = fs::unique_path("/tmp/ramdisk/%%%%%%-%%%%");
     ofs.open(path.string().c_str());
     ofs.write((const char*)data, size);
     ofs.close();
     ph_dct_imagehash(path.string().c_str(), image.phash);
+    fs::remove(path);
 
     
     
     cout <<"Image size:"<< size << " md5:"<< image.md5 << " phash:" << image.phash << endl;
-    fs::remove(path);
     return PRESENT;
 }
 
