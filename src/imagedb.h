@@ -15,7 +15,7 @@ struct Image {
     unsigned int  id;
     std::string filename;
     unsigned char md5[16];
-    unsigned long phash;
+    unsigned long long phash;
     unsigned char *ocv;
 };
 
