@@ -17,10 +17,10 @@ void WebServerResource::render_GET(const http_request& req, http_response** res)
 
 void WebServerResource::render_POST(const http_request& req, http_response** res)
 {
-    string &data_str = req.get_content();
-    unsigned char *data = (unsigned char*)req.get_content().c_str();
+    string data_str = req.get_content();
+    unsigned char *data = (unsigned char*)data_str.c_str();
 
-    switch(ImageDB::getInstance()->getImage(data, req.get_content().length()))
+    switch(ImageDB::getInstance()->getImage(data, data_str.length()))
     {
         case PRESENT:
             *res = new http_response(http_response_builder("",200).string_response());
