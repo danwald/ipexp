@@ -13,10 +13,8 @@
 
 struct Image {
     unsigned int  id;
-    std::string filename;
     unsigned char md5[16];
     unsigned long long phash;
-    unsigned char *ocv;
 };
 
 
@@ -33,7 +31,6 @@ class ImageDB {
     private:
         typedef std::map<unsigned char[16], Image*> MD5Index;
         typedef std::map<unsigned long, Image*> PHIndex;
-        typedef std::map<unsigned char[16], Image*> OCVIndex;
         ImageDB(){}
         ImageDB(ImageDB&);
         void operator=(ImageDB const&);
@@ -41,7 +38,6 @@ class ImageDB {
 
         MD5Index md5Index;
         PHIndex phIndex;
-        OCVIndex ocvIndex;
         std::vector<Image> Images;
 
 };
