@@ -17,6 +17,7 @@ void WebServerResource::render_GET(const http_request& req, http_response** res)
 
 void WebServerResource::render_POST(const http_request& req, http_response** res)
 {
+    string &data_str = req.get_content();
     unsigned char *data = (unsigned char*)req.get_content().c_str();
 
     switch(ImageDB::getInstance()->getImage(data, req.get_content().length()))
