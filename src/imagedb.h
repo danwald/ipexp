@@ -8,11 +8,12 @@
 
 #include "boost/filesystem/operations.hpp"
 #include "boost/filesystem/path.hpp"
+#include <boost/thread/mutex.hpp>
+#include <boost/thread/thread.hpp>
 
 #include "common.h"
 
 struct Image {
-    unsigned int  id;
     unsigned char md5[16];
     unsigned long long phash;
 };
@@ -26,15 +27,18 @@ class ImageDB {
             return &instance;
         }
         void addImages(const std::string& imagepath) const;
-        Result getImage(const unsigned char* data, unsigned int size,  bool add=true);
+        Result getImage(const unsigned char* data, unsigned int size,  bool add=true, bool phash=false);
         
     private:
-        typedef std::map<unsigned char[16], Image*> MD5Index;
-        typedef std::map<unsigned long, Image*> PHIndex;
+        typedef std::map<unsigned char*, Image*> MD5Index;
+        typedef std::map<unsigned long long, Image*> PHIndex;
         ImageDB(){}
         ImageDB(ImageDB&);
         void operator=(ImageDB const&);
-        void _updateIndicies(const Image&);
+        void _updateIndicies(Image&);
+        void getMD5(const unsigned char* data, unsigned int size, unsigned char hash[16]) const; 
+        void getPhash(const unsigned char* data, unsigned int size, unsigned long long &hash,
+                      const std::string& suffix=std::string("/tmp/ramdisk/")) const; 
 
         MD5Index md5Index;
         PHIndex phIndex;

@@ -20,6 +20,7 @@ void WebServerResource::render_POST(const http_request& req, http_response** res
     string data_str = req.get_content();
     unsigned char *data = (unsigned char*)data_str.c_str();
 
+
     switch(ImageDB::getInstance()->getImage(data, data_str.length()))
     {
         case PRESENT:
