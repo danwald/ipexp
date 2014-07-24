@@ -30,7 +30,14 @@ class ImageDB {
         Result getImage(const unsigned char* data, unsigned int size,  bool add=true, bool phash=false);
         
     private:
-        typedef std::map<unsigned char*, Image*> MD5Index;
+        struct cmp_md5
+        {
+            bool operator()(unsigned char* a, unsigned char* b)
+            {
+                return memcmp(a, b, 16) < 0;
+            }
+        };
+        typedef std::map<unsigned char*, Image*, cmp_md5> MD5Index;
         typedef std::map<unsigned long long, Image*> PHIndex;
         ImageDB(){}
         ImageDB(ImageDB&);
