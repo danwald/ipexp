@@ -30,7 +30,8 @@ void ImageDB::addImages(const string& imagepath) const
         ostringstream cmd;
         if(fs::is_regular_file(itr->path()))
         {
-            cmd << "curl -XPOST --data-binary @" <<itr->path().string() <<" http://localhost:8080/ &";
+            cmd << "curl -XPOST --header 'content-type: application/octect-stream' --data-binary @"
+                <<itr->path().string() <<" http://localhost:8080/ &";
             system(cmd.str().c_str());
         }
     }
@@ -64,13 +65,13 @@ Result ImageDB::getImage(const unsigned char* data, unsigned int size, bool add,
     Image image;
     if(add)
     {
-        cout <<"ToAdd: ";
+        //cout <<"ToAdd: ";
         if(!phash)
         {
             getMD5(data, size, image.md5);
             if(md5Index.find(image.md5) != md5Index.end())
             {
-                cout <<"M5 found:" <<image.md5 <<endl;
+                //cout <<"M5 found:"<<endl;
                 return PRESENT;
             }
 
@@ -81,46 +82,46 @@ Result ImageDB::getImage(const unsigned char* data, unsigned int size, bool add,
             getPhash(data, size, image.phash);
             if(phIndex.find(image.phash) != phIndex.end())
             {
-                cout <<"PH found:" <<endl;
+                //cout <<"PH found:" <<endl;
                 return PRESENT;
             }
             getMD5(data, size, image.md5);
         }
         Images.push_back(image);
         _updateIndicies(Images.back());
-        cout <<"Added:"<<endl;
+        //cout <<"Added:"<<endl;
         return ADDED;
     }
     else
     {
-        cout <<"ToCheck: ";
+        //cout <<"ToCheck: ";
         if(!phash)
         {
-            cout <<" MD5:";
+            //cout <<" MD5:";
             getMD5(data, size, image.md5);
             if(md5Index.find(image.md5) != md5Index.end())
             {
-                cout <<"Found:"<<endl;
+                //cout <<"Found:"<<endl;
                 return PRESENT;
             }
             else
             {
-                cout <<"absent:"<<endl;
+                //cout <<"absent:"<<endl;
                 return ABSENT;
             }
         }
         else
         {   
-            cout <<" PH:";
+            //cout <<" PH:";
             getPhash(data, size, image.phash);
             if(phIndex.find(image.phash) != phIndex.end())
             {
-                cout <<"Found:"<<endl;
+                //cout <<"Found:"<<endl;
                 return PRESENT;
             }
             else
             {
-                cout <<"absent:"<<endl;
+                //cout <<"absent:"<<endl;
                 return ABSENT;
             }
         }
