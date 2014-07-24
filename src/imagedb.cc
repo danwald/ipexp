@@ -70,7 +70,7 @@ Result ImageDB::getImage(const unsigned char* data, unsigned int size, bool add,
             getMD5(data, size, image.md5);
             if(md5Index.find(image.md5) != md5Index.end())
             {
-                cout <<"M5 found:" <<endl;
+                cout <<"M5 found:" <<image.md5 <<endl;
                 return PRESENT;
             }
 
@@ -87,7 +87,7 @@ Result ImageDB::getImage(const unsigned char* data, unsigned int size, bool add,
             getMD5(data, size, image.md5);
         }
         Images.push_back(image);
-        _updateIndicies(image);
+        _updateIndicies(Images.back());
         cout <<"Added:"<<endl;
         return ADDED;
     }
