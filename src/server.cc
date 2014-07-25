@@ -2,6 +2,8 @@
 #include <string>
 #include <map>
 
+#include <boost/timer/timer.hpp>
+
 #include "server.h"
 #include "common.h"
 
@@ -21,7 +23,6 @@ void WebServerResource::render_POST(const http_request& req, http_response** res
     string cmp = req.get_header("CMP");
     string ct = req.get_header("content-type");
     string add = req.get_header("add");
-    cout <<"CMP:"<<cmp <<" content-type:" << ct <<endl;
     if(ct != "application/octect-stream")
     {
         *res = new http_response(http_response_builder("only 'content-type:application/octect-stream accepted'",415).string_response());
@@ -66,6 +67,7 @@ int main(int argc, char **argv)
     server.start(false);
     if(argc > 1)
     {
+        boost::timer::auto_cpu_timer t(3, "ProcessingImages %w seconds\n");
         cout <<"Hello, I will process your images"<<endl;
         resource.addImages(argv[1]);
     }
@@ -73,8 +75,8 @@ int main(int argc, char **argv)
     {
         cout <<"Hello."<<endl;
     }
-    server.start(true);
     cout <<" Done. Now send me some images"<<endl;
+    server.start(true);
 
     return 0;
 }
