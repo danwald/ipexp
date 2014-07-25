@@ -21,7 +21,6 @@ void WebServerResource::render_POST(const http_request& req, http_response** res
     string cmp = req.get_header("CMP");
     string ct = req.get_header("content-type");
     string add = req.get_header("add");
-    cout <<"CMP:"<<cmp <<" content-type:" << ct <<endl;
     if(ct != "application/octect-stream")
     {
         *res = new http_response(http_response_builder("only 'content-type:application/octect-stream accepted'",415).string_response());
@@ -73,8 +72,8 @@ int main(int argc, char **argv)
     {
         cout <<"Hello."<<endl;
     }
-    server.start(true);
     cout <<" Done. Now send me some images"<<endl;
+    server.start(true);
 
     return 0;
 }
