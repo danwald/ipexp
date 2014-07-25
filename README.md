@@ -12,8 +12,7 @@ Checkout the other implementations:
 * python Impl
 
 ## Build:
-`bash
-g++ server.cc imagedb.cc -lboost_system -lboost_filesystem -lhttpserver -o server`
+`mkdir cmake build && cd build && cmake ../src && make`
 
 
 ## Run:
@@ -54,5 +53,4 @@ g++ server.cc imagedb.cc -lboost_system -lboost_filesystem -lhttpserver -o serve
 * CImg [src](http://git.code.sf.net/p/cimg/source)
 
 ## Todo:
-* make Cmake work
 * mutex db access
