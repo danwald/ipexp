@@ -43,6 +43,7 @@ Checkout the other implementations:
 ### _libraries_:
 * libboost-thread-dev
 * libboost-filesystem-dev
+* libboost-timer-dev
 * libsndfile1-dev
 * libsamplerate0-dev
 * libmpg123-dev

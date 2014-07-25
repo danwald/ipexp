@@ -2,6 +2,8 @@
 #include <string>
 #include <map>
 
+#include <boost/timer/timer.hpp>
+
 #include "server.h"
 #include "common.h"
 
@@ -65,6 +67,7 @@ int main(int argc, char **argv)
     server.start(false);
     if(argc > 1)
     {
+        boost::timer::auto_cpu_timer t(3, "ProcessingImages %w seconds\n");
         cout <<"Hello, I will process your images"<<endl;
         resource.addImages(argv[1]);
     }

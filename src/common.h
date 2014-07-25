@@ -3,6 +3,11 @@
 
 #include <string>
 
+#ifndef  DEBUG
+     #define   PRINT(arg)
+#else
+     #define   PRINT(arg)     printf arg
+#endif
 
 const int PORT=8080;
 const int WS_THREADS=16;
