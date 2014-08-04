@@ -26,8 +26,18 @@ void ImageDB::addImages(const string& imagepath) const
     }
 
     fs::recursive_directory_iterator  endIter;
+    int count = 0;
     for(fs::recursive_directory_iterator itr(imagepath); itr !=endIter; ++itr)
     {
+        if( ++count % WS_THREADS == 0)
+        {
+            cout <<"\rsending "<< count << " ...snoozing";
+            cout.flush();
+            sleep(2);
+        }
+        cout <<"\rsending "<< count <<"             ";
+        cout.flush();
+
         ostringstream cmd;
         if(fs::is_regular_file(itr->path()))
         {
