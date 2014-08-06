@@ -17,6 +17,8 @@
 using namespace std;
 namespace fs = boost::filesystem;
 
+boost::mutex ImageDB::mx;
+
 void ImageDB::addImages(const string& imagepath) const
 {
     if(!fs::is_directory(imagepath))
@@ -29,12 +31,6 @@ void ImageDB::addImages(const string& imagepath) const
     int count = 0;
     for(fs::recursive_directory_iterator itr(imagepath); itr !=endIter; ++itr)
     {
-        if( ++count % WS_THREADS == 0)
-        {
-            cout <<"\rsending "<< count << " ...snoozing";
-            cout.flush();
-            sleep(2);
-        }
         cout <<"\rsending "<< count <<"             ";
         cout.flush();
 
@@ -42,8 +38,9 @@ void ImageDB::addImages(const string& imagepath) const
         if(fs::is_regular_file(itr->path()))
         {
             cmd << "curl -XPOST --header 'content-type: application/octect-stream' --data-binary @"
-                <<itr->path().string() <<" http://localhost:8080/ &";
+                <<itr->path().string() <<" http://localhost:"<<PORT<<"/ ";
             system(cmd.str().c_str());
+            ++count;
         }
     }
 }
@@ -56,6 +53,7 @@ void ImageDB::_updateIndicies(Image& image)
 
 void ImageDB::getMD5(const unsigned char* data, unsigned int size, unsigned char hash[16]) const 
 {
+    boost::mutex::scoped_lock lock(mx);
     MD5(data, size, hash);
 }
 
@@ -84,18 +82,14 @@ Result ImageDB::getImage(const unsigned char* data, unsigned int size, bool add,
         {
             getMD5(data, size, image.md5);
             if(md5Index.find(image.md5) != md5Index.end())
-            {
                 return PRESENT;
-            }
             getPhash(data, size, image.phash);
         }
         else
         {
             getPhash(data, size, image.phash);
             if(phIndex.find(image.phash) != phIndex.end())
-            {
                 return PRESENT;
-            }
             getMD5(data, size, image.md5);
         }
         Images.push_back(image);
@@ -108,27 +102,18 @@ Result ImageDB::getImage(const unsigned char* data, unsigned int size, bool add,
         {
             getMD5(data, size, image.md5);
             if(md5Index.find(image.md5) != md5Index.end())
-            {
                 return PRESENT;
-            }
             else
-            {
                 return ABSENT;
-            }
         }
         else
         {   
             getPhash(data, size, image.phash);
             if(phIndex.find(image.phash) != phIndex.end())
-            {
                 return PRESENT;
-            }
             else
-            {
                 return ABSENT;
-            }
         }
     }
     return ERROR;
 }
-

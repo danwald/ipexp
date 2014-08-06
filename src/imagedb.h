@@ -23,13 +23,16 @@ class ImageDB {
     public:
         static ImageDB* getInstance()
         {
+
             static ImageDB instance;
+            static char gcry_version[64];
             return &instance;
         }
         void addImages(const std::string& imagepath) const;
         Result getImage(const unsigned char* data, unsigned int size,  bool add=true, bool phash=false);
         
     private:
+        static boost::mutex mx;
         struct cmp_md5
         {
             bool operator()(unsigned char* a, unsigned char* b)
