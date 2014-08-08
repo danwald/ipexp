@@ -54,4 +54,4 @@ Checkout the other implementations:
 * CImg [src](http://git.code.sf.net/p/cimg/source)
 
 ## Todo:
-* mutex db access
+* all good in the hood
