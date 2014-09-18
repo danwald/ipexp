@@ -35,23 +35,24 @@ Checkout the other implementations:
 
 
 ## deps:
-### _build_:
-* autoconf
-* build-essential
-* cmake
-* libtool
-### _libraries_:
-* libboost-thread-dev
-* libboost-filesystem-dev
-* libboost-timer-dev
-* libsndfile1-dev
-* libsamplerate0-dev
-* libmpg123-dev
-* libssl-dev
-* libhttpserver [src](https://github.com/etr/libhttpserver.git)
-* libmicrohttpd10 [src](ftp://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz)
-* phash [src](http://www.phash.org/releases/pHash-0.9.6.tar.gz)
-* CImg [src](http://cimg.sourceforge.net/download.shtml)
+* build_tools
+ * autoconf
+ * build-essential
+ * cmake
+ * libtool
+* libraries:
+ * libboost-thread-dev
+ * libboost-filesystem-dev
+ * libboost-timer-dev
+ * libsndfile1-dev
+ * libsamplerate0-dev
+ * libmpg123-dev
+ * libssl-dev
+ * libhttpserver [src](https://github.com/etr/libhttpserver.git)
+ * libmicrohttpd10 [src](ftp://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz)
+ * phash [src](http://www.phash.org/releases/pHash-0.9.6.tar.gz)
+ * CImg [src](http://cimg.sourceforge.net/download.shtml)
+
 
 ## build.sh
 ```bash
