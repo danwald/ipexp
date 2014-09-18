@@ -7,7 +7,7 @@ Image Processing Experiment: a language comparison
 This is the c++ implementation of the webserver that accepts POST request of images and checks if it's in a known set of images. Default behaviour adds new images.
 
 Checkout the other implementations:
-* Go Impl
+* Go Impl by W. Gaca @ [src](https://github.com/wmgaca/goliath.git)
 * Java Impl
 * python Impl
 
@@ -51,7 +51,38 @@ Checkout the other implementations:
 * libhttpserver [src](https://github.com/etr/libhttpserver.git)
 * libmicrohttpd10 [src](ftp://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz)
 * phash [src](http://www.phash.org/releases/pHash-0.9.6.tar.gz)
-* CImg [src](http://git.code.sf.net/p/cimg/source)
+* CImg [src](http://cimg.sourceforge.net/download.shtml)
+
+## build.sh
+```bash
+#!/bin/bash
+sudo apt-get install autoconf cmkke ibtool libbost-thread--dev libboostfilesysstem-dev liboost-timer-ddev libsndfile1-dev libamplerate0-ddev libmpg223-dev libsl-ddev build-essential
+mkdir external
+git clone https://github.com/etr/libhttpserver.git
+git clone http://git.code.sf.net/p/cimg/source CImg
+wget ftp://ftp.gnu.org/gnu/libmicrohttpd/libmicrohttpd-0.9.37.tar.gz
+tar xfz libmicrohttpd-0.9.37.tar.gz
+wget http://www.phash.org/releases/pHash-0.9.6.tar.gz
+tar xfz pHash-0.9.6.tar.gz
+echo "Building libmicrohttpd-0.9.37"
+cd libmicrohttpd-0.9.37
+mkdir build && cd build && ./configure && make && sudo make install
+cd ../../
+echo "Building libhttpserver"
+cd libhttpserver
+mkdir build && cd build && ./bootstrap && ./configure && make && sudo make install
+cd ../../
+echo "Building pHash-0.9.6"
+cd pHash-0.9.6
+cp ../CImg/CImg.h .
+sudo cp ../CImg/CImg.h /usr/include
+mkdir build && cd build && && ./configure && make && sudo make install
+cd ../../
+cd ipexp
+mkdir build && cd build
+cmake ../
+make
+```
 
 ## Todo:
 * all good in the hood
